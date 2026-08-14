@@ -6,21 +6,25 @@ describe("application bootstrap", () => {
   });
 
   it("exports an Express app without starting a server on import", async () => {
-    const appModule = await import("./app.js");
-    const app = appModule.default || appModule;
+    const { default: app } = await import("./app.js");
 
     expect(typeof app).toBe("function");
     expect(typeof app.listen).toBe("function");
   });
 
   it("starts listening only from the server entrypoint", async () => {
-    const appModule = await import("./app.js");
-    const app = appModule.default || appModule;
-    const spy = vi.spyOn(app, "listen");
+    const listen = vi.fn();
 
-    await import("./server.js");
+    vi.doMock("./app.js", () => ({
+      default: { listen },
+    }));
 
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(expect.any(Number), expect.any(Function));
+    await import("./server.js?bootstrap");
+
+    expect(listen).toHaveBeenCalledTimes(1);
+    expect(listen).toHaveBeenCalledWith(
+      expect.any(Number),
+      expect.any(Function),
+    );
   });
 });
