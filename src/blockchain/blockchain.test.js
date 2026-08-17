@@ -44,14 +44,22 @@ describe("blockchain behavior", () => {
 
   it("returns true for a valid chain", () => {
     const blockchain = new Blockchain();
-    blockchain.addBlock({ sender: "farm-a", recipient: "roastery", weightKg: 10 });
+    blockchain.addBlock({
+      sender: "farm-a",
+      recipient: "roastery",
+      weightKg: 10,
+    });
 
     expect(blockchain.isValid()).toBe(true);
   });
 
   it("returns false when a block is tampered with", () => {
     const blockchain = new Blockchain();
-    blockchain.addBlock({ sender: "farm-a", recipient: "roastery", weightKg: 10 });
+    blockchain.addBlock({
+      sender: "farm-a",
+      recipient: "roastery",
+      weightKg: 10,
+    });
     blockchain.chain[1].data.weightKg = 99;
 
     expect(blockchain.isValid()).toBe(false);
