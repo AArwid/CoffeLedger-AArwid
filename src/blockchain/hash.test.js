@@ -41,7 +41,7 @@ describe("sha256 block hashing", () => {
 
     const hash = sha256({
       index: 1,
-      timestamp: 1720000000000,
+      timestamp: 2000000000000,
       transactions: [{ sender: "farm-a", recipient: "roastery", weightKg: 10 }],
       previousHash: "0",
       nonce: 40,
