@@ -1,10 +1,10 @@
 import { describe, test, expect } from "vitest";
 import { createHash } from "crypto";
-import { sha256 } from "./blockchain.js";
+import { sha256 } from "./hash.js";
 
 describe("sha256 block hashing", () => {
   test("same input produces the same hash", async () => {
-    const { sha256 } = await import("./blockchain.js");
+    const { sha256 } = await import("./hash.js");
 
     const blockData = {
       index: 1,
@@ -18,7 +18,7 @@ describe("sha256 block hashing", () => {
   });
 
   test("changing nonce changes the hash", async () => {
-    const { sha256 } = await import("./blockchain.js");
+    const { sha256 } = await import("./hash.js");
 
     const original = {
       index: 1,
