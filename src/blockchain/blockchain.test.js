@@ -2,6 +2,38 @@ import { describe, it, expect } from "vitest";
 import { Blockchain, Block } from "./blockchain.js";
 
 describe("blockchain behavior", () => {
+  it("stores transactions with a batchId as pending", () => {
+    const blockchain = new Blockchain();
+    const transaction = {
+      sender: "farm-a",
+      recipient: "roastery",
+      batchId: "batch-1",
+      weightKg: 25,
+    };
+
+    blockchain.addTransaction(transaction);
+
+    expect(blockchain.pendingTransactions).toEqual([transaction]);
+  });
+
+  it("mines pending transactions into a block and clears the pool", () => {
+    const blockchain = new Blockchain();
+    const transaction = {
+      sender: "farm-a",
+      recipient: "roastery",
+      batchId: "batch-1",
+      weightKg: 25,
+    };
+
+    blockchain.addTransaction(transaction);
+    const minedBlock = blockchain.minePendingTransactions(1);
+
+    expect(minedBlock.data).toEqual([transaction]);
+    expect(minedBlock.hash).toMatch(/^0/);
+    expect(blockchain.chain).toContain(minedBlock);
+    expect(blockchain.pendingTransactions).toEqual([]);
+  });
+
   it("creates a genesis block with previousHash 0", () => {
     const blockchain = new Blockchain();
 

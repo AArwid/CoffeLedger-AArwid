@@ -1,4 +1,5 @@
-import cryptoJsSha256 from "crypto-js/sha256.js";
+import { createHash } from "crypto";
+import { mineBlock } from "./mining.js";
 
 export class Block {
   constructor(index, timestamp, data, previousHash = "0", nonce = 0) {
@@ -12,6 +13,10 @@ export class Block {
 
   calculateHash() {
     const payload = `${this.index}${this.timestamp}${JSON.stringify(this.data)}${this.previousHash}${this.nonce}`;
-    return cryptoJsSha256(payload).toString();
+    return createHash("sha256").update(payload).digest("hex");
+  }
+
+  mine(difficulty) {
+    return mineBlock(this, difficulty);
   }
 }

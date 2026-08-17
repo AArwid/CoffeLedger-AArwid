@@ -6,6 +6,7 @@ export { Block } from "./block.js";
 export class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
+    this.pendingTransactions = [];
   }
 
   createGenesisBlock() {
@@ -16,6 +17,29 @@ export class Blockchain {
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
+  }
+
+  addTransaction(transaction) {
+    this.pendingTransactions.push(transaction);
+    return transaction;
+  }
+
+  minePendingTransactions(difficulty = 1) {
+    const latestBlock = this.getLatestBlock();
+    const transactions = [...this.pendingTransactions];
+    const newBlock = new Block(
+      latestBlock.index + 1,
+      Date.now(),
+      transactions,
+      latestBlock.hash,
+      0,
+    );
+
+    newBlock.mine(difficulty);
+    this.chain.push(newBlock);
+    this.pendingTransactions = [];
+
+    return newBlock;
   }
 
   isValid() {
