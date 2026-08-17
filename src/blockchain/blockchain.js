@@ -1,8 +1,1 @@
-class Blockchain {
-  constructor() {
-    this.chain = [];
-    this.pendingTransactions = [];
-  }
-}
-
-module.exports = Blockchain;
+export { sha256 } from "./hash.js";

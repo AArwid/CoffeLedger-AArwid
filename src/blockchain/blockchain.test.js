@@ -1,4 +1,6 @@
 import { describe, test, expect } from "vitest";
+import { createHash } from "crypto";
+import { sha256 } from "./blockchain.js";
 
 describe("sha256 block hashing", () => {
   test("same input produces the same hash", async () => {
@@ -28,7 +30,7 @@ describe("sha256 block hashing", () => {
 
     const changed = {
       ...original,
-      nonce: 100,
+      nonce: 101,
     };
 
     expect(sha256(original)).not.toBe(sha256(changed));
@@ -42,7 +44,7 @@ describe("sha256 block hashing", () => {
       timestamp: 1720000000000,
       transactions: [{ sender: "farm-a", recipient: "roastery", weightKg: 10 }],
       previousHash: "0",
-      nonce: 42,
+      nonce: 40,
     });
 
     expect(hash).toMatch(/^[0-9a-f]{64}$/);
