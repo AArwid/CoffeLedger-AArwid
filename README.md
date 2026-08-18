@@ -63,3 +63,5 @@ The project began with the base Node.js setup and app structure. After that, the
 aa1f1ea test: block added links, transaction payload
 
 96144af test: mining, PoW, nonce increease
+
+7784c82 test: validate transaction, api integration
