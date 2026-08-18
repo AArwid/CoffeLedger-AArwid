@@ -53,3 +53,13 @@ npm run dev
 ## Short project summary
 
 The project began with the base Node.js setup and app structure. After that, the team defined the expected blockchain hash behavior in tests before implementing the logic. The SHA-256 function now hashes block-like data deterministically and returns the required 64-character hex digest. This is the foundation for the next blockchain steps, including mining and transaction validation.
+
+## commits med failade tester
+
+3449815 test: blockchain hasing behavior
+
+8ec92d0 test: changing nonce, change hash
+
+aa1f1ea test: block added links, transaction payload
+
+96144af test: mining, PoW, nonce increease
