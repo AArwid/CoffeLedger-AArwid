@@ -10,7 +10,7 @@ function createBlockchainRouter(blockchain) {
       res.status(200).json({ chain, pendingTransactions });
     } catch (error) {
       console.error("Error in blockchain route:", error);
-      res.status(400).json({ error: "Internal server error" });
+      res.status(400).json({ message: "Internal server error" });
     }
   });
 

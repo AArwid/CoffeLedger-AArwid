@@ -9,7 +9,7 @@ function createTransactionRouter(blockchain) {
       res.status(201).json({ transaction });
     } catch (error) {
       console.error("Error in transaction route:", error);
-      res.status(400).json({ error: "Internal server error" });
+      res.status(400).json({ message: "Internal server error" });
     }
   });
 

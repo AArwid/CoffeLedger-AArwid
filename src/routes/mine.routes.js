@@ -9,7 +9,7 @@ function createMineRouter(blockchain) {
       res.status(200).json({ block });
     } catch (error) {
       console.error("Error in mine route:", error);
-      res.status(400).json({ error: "Internal server error" });
+      res.status(400).json({ message: "Internal server error" });
     }
   });
 

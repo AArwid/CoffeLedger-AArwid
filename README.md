@@ -108,16 +108,19 @@ npm run test:watch
 npm run coverage
 ```
 
-Projektets coverage är verifierad till över 80 procent. Testerna täcker hashning, mining, blockkedjevalidering, transaktionsvalidering och API-flöden. Tampering-testet ändrar blockdata efter att blocket skapats och kontrollerar att `isValid()` returnerar `false`.
-
 ## commits med failade tester
 
 3449815 test: blockchain hasing behavior
+url : https://github.com/AArwid/CoffeLedger-AArwid/commit/34498157aa8e084112dea3a72d64ab363e2acd73
 
 8ec92d0 test: changing nonce, change hash
+url : https://github.com/AArwid/CoffeLedger-AArwid/commit/8ec92d0b3636122f410249683d4bb4686cdfb7ae
 
 aa1f1ea test: block added links, transaction payload
+url : https://github.com/AArwid/CoffeLedger-AArwid/commit/aa1f1ea2cb8ca6779397c64ba80b82b1ffa27aad
 
 96144af test: mining, PoW, nonce increease
+url : https://github.com/AArwid/CoffeLedger-AArwid/commit/96144af4ac40648e5d3529a260d2512d2b607e83
 
 7784c82 test: validate transaction, api integration
+url : https://github.com/AArwid/CoffeLedger-AArwid/commit/7784c8279636d45c49d938ac4f19cd269a952505

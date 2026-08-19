@@ -3,6 +3,3 @@ node_modules/
 coverage/
 dist/
 *.log
-AGENTS.md
-kladd.js
-TODO.md

@@ -1,8 +1,25 @@
 function validateTransaction(req, res, next) {
   const { sender, recipient, batchId, weightKg } = req.body ?? {};
-  const hasValidTextFields = [sender, recipient, batchId].every(
-    (field) => typeof field === "string" && field.trim().length > 0,
-  );
+
+  function checkFieldValidity(field) {
+    if (typeof field !== "string") {
+      return false;
+    }
+    if (field.trim().length === 0) {
+      return false;
+    }
+    if (field.length > 100) {
+      return false;
+    }
+
+    return typeof field === "string" && field.trim().length > 0;
+  }
+
+  const hasValidTextFields =
+    checkFieldValidity(sender) &&
+    checkFieldValidity(recipient) &&
+    checkFieldValidity(batchId);
+
   const hasValidWeight = typeof weightKg === "number" && weightKg > 0;
 
   if (!hasValidTextFields || !hasValidWeight) {
