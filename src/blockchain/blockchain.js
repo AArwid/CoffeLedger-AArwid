@@ -1,5 +1,5 @@
 import { Block } from "./block.js";
-
+import { getMiningDifficulty } from "./difficulty.js";
 export { sha256 } from "./hash.js";
 export { Block } from "./block.js";
 
@@ -24,7 +24,7 @@ export class Blockchain {
     return transaction;
   }
 
-  minePendingTransactions(difficulty = 1) {
+  minePendingTransactions(difficulty = getMiningDifficulty()) {
     const latestBlock = this.getLatestBlock();
     const transactions = [...this.pendingTransactions];
     const newBlock = new Block(

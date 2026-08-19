@@ -1,22 +1,14 @@
 # CoffeLedger
 
-A decentralized logistics ledger backend for Fair Trade coffee, built with Node.js, Express, and a SHA-256 based Proof of Work system.
+CoffeLedger är en Node.js-backend för en decentraliserad logistikliggare för Fair Trade-kaffe. API:t använder Express, Vitest och SHA-256-baserad Proof of Work.
 
-## Project status so far
+## Funktioner
 
-The project is in the early blockchain implementation stage. The app structure has been created, and the first core hashing behavior has been implemented and verified with tests.
-
-The project follows a strict test-first workflow. We wrote tests before the implementation and validated the result with Vitest.
-
-## Current implementation
-
-- Express app scaffold created for the backend
-- Route structure prepared for blockchain, transaction, and mining endpoints
-- SHA-256 hashing utility implemented using Node.js crypto
-- Hash behavior tested for:
-  - deterministic output for identical input
-  - changed input producing a different hash
-  - 64-character hexadecimal hash format
+- Blockchain med genesisblock, blocklänkning och validering.
+- Transaktioner med `sender`, `recipient`, `batchId` och positiv `weightKg`.
+- Proof of Work med Node.js inbyggda `crypto`-modul.
+- Middleware som avvisar ogiltiga transaktioner med HTTP 400.
+- Integrationstester med Supertest.
 
 ## Installation
 
@@ -24,35 +16,99 @@ The project follows a strict test-first workflow. We wrote tests before the impl
 npm install
 ```
 
-## Tests
+## Konfiguration
 
-```bash
-npm test
-npm run test:watch
+Skapa en lokal `.env`-fil om du vill ändra serverns inställningar. `.env` finns i `.gitignore` och ska inte committas.
+
+```env
+NODE_ENV=development
+PORT=4040
+POW_DIFFICULTY=2
 ```
 
-## Start
+I testmiljön används alltid difficulty `1` så att testerna körs snabbt. I andra miljöer används `POW_DIFFICULTY`, med `2` som standard. Difficulty måste vara ett positivt heltal.
+
+## Starta servern
 
 ```bash
 npm start
 ```
 
-## Development
+Servern startar på `http://localhost:4040`, eller på porten i `PORT`.
+
+För utveckling med automatisk omstart:
 
 ```bash
 npm run dev
 ```
 
-## TDD commit log
+## API
 
-- `chore: initialize node project`
-- `chore: create application structure`
-- `test: specify block hash behavior`
-- `feat: implement block hashing`
+### `GET /blockchain`
 
-## Short project summary
+Returnerar blockchainen och väntande transaktioner.
 
-The project began with the base Node.js setup and app structure. After that, the team defined the expected blockchain hash behavior in tests before implementing the logic. The SHA-256 function now hashes block-like data deterministically and returns the required 64-character hex digest. This is the foundation for the next blockchain steps, including mining and transaction validation.
+```json
+{
+  "chain": [
+    {
+      "index": 0,
+      "timestamp": 1700000000000,
+      "data": "Genesis Block",
+      "previousHash": "0",
+      "nonce": 0,
+      "hash": "..."
+    }
+  ],
+  "pendingTransactions": []
+}
+```
+
+### `POST /transactions`
+
+Lägger till en giltig transaktion i pending-poolen.
+
+Request:
+
+```json
+{
+  "sender": "farm-a",
+  "recipient": "roastery",
+  "batchId": "batch-1",
+  "weightKg": 25
+}
+```
+
+Svar: HTTP `201`.
+
+```json
+{
+  "transaction": {
+    "sender": "farm-a",
+    "recipient": "roastery",
+    "batchId": "batch-1",
+    "weightKg": 25
+  }
+}
+```
+
+Tomma textfält, saknat `batchId` och ett icke-positivt eller icke-numeriskt `weightKg` ger HTTP `400`.
+
+### `POST /mine`
+
+Bryter pending-transaktionerna till ett nytt block med Proof of Work och tömmer pending-poolen.
+
+Svar: HTTP `200` med det nya blocket i egenskapen `block`.
+
+## Tester
+
+```bash
+npm test
+npm run test:watch
+npm run coverage
+```
+
+Projektets coverage är verifierad till över 80 procent. Testerna täcker hashning, mining, blockkedjevalidering, transaktionsvalidering och API-flöden. Tampering-testet ändrar blockdata efter att blocket skapats och kontrollerar att `isValid()` returnerar `false`.
 
 ## commits med failade tester
 
